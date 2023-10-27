@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import HomePage from './pages/HomePage.jsx'
+import AuthTestPage from './pages/AuthTestPage.jsx'
 
 import {
   createBrowserRouter,
@@ -16,6 +17,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App></App>}>
       <Route path="/" element={<HomePage></HomePage>}></Route>
+      <Route path="/authtest" element={<AuthTestPage></AuthTestPage>}></Route>
     </Route>
   )  
 );

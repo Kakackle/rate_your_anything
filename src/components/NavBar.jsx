@@ -1,9 +1,16 @@
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+
+const Nav = styled.nav`
+display: flex;
+gap: 10px;
+`
 
 export default function NavBar(){
     return(
-        <nav>
+        <Nav>
             <Link to="/">Home</Link>
-        </nav>
+            <Link to="/authtest">Auth test</Link>
+        </Nav>
     )
 }
