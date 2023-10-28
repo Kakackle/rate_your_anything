@@ -8,8 +8,10 @@ import { useOutletContext } from 'react-router-dom'
 
 export default function HomePage() {
   const session = useOutletContext();
-  const [users, setUsers] = useState(null)
+  const [users, setUsers] = useState(null);
   const [fetchError, setFetchError] = useState(null);
+
+  const [posts, setPosts] = useState(null);
 
   useEffect(()=>{
     const fetchUsers = async () => {
@@ -26,7 +28,24 @@ export default function HomePage() {
         setUsers(data);
       }
     }
-    fetchUsers()
+    // fetchUsers();
+
+    const fetchPosts = async () => {
+      const {postsData, postsError} = await supabase
+      .from('posts')
+      .select('*')
+
+      if (postsError){
+        console.log(postsError)
+      }
+
+      if(postsData){
+        console.log('posts', postsData)
+        setPosts(postsData);
+      }
+    }
+
+    fetchPosts();
   }, [])
   
 
@@ -49,6 +68,19 @@ export default function HomePage() {
             })}
           </ul>
         )}
+        {
+          posts && (
+            <ul>
+              {posts.map(post => {
+                return(
+                  <li key={post.id}>
+                    name: {post.name}, category: {post.category}
+                  </li>
+                )
+              })}
+            </ul>
+          )
+        }
     </>
   )
 }
