@@ -5,6 +5,7 @@ import './index.css'
 import HomePage from './pages/HomePage.jsx'
 import AuthTestPage from './pages/AuthTestPage.jsx'
 import AboutPage from './pages/AboutPage.jsx'
+import RegisterPage from './pages/RegisterPage.jsx'
 import { store } from './store.js'
 import { Provider } from 'react-redux'
 
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<HomePage></HomePage>}></Route>
       <Route path="/about" element={<AboutPage></AboutPage>}></Route>
       <Route path="/authtest" element={<AuthTestPage></AuthTestPage>}></Route>
+      <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
     </Route>
   )  
 );

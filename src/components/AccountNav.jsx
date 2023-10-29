@@ -3,8 +3,13 @@ import { supabase } from '../client'
 import AvatarNav from './AvatarNav'
 import styled from 'styled-components'
 
-const ColorMain = styled.div`
-background-color: purple;
+const AccountDiv = styled.div`
+// background-color: purple;
+display: flex;
+align-items: center;
+gap: 10px;
+font-size: 20px;
+font-weight: 500;
 `
 
 
@@ -39,9 +44,9 @@ export default function AccountNav({session}){
       }, [session])
 
     return (
-        <ColorMain>
+        <AccountDiv>
             {username}
             <AvatarNav url={avatar_url} size={`75px`}></AvatarNav>
-        </ColorMain>
+        </AccountDiv>
     )
 }

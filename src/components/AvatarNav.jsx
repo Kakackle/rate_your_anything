@@ -2,8 +2,14 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../client'
 import styled from 'styled-components'
 
-const ColorMain = styled.div`
-background-color: teal;
+// const ColorMain = styled.div`
+// background-color: teal;
+// `
+
+const AvImg = styled.img`
+width: 50px;
+height: 50px;
+border-radius: 50%;
 `
 
 export default function Avatar({ url, size}) {
@@ -27,17 +33,17 @@ export default function Avatar({ url, size}) {
     }    
 
     return (
-        <ColorMain>
+        <>
               {avatarUrl ? (
-                <img
+                <AvImg
                 src={avatarUrl}
                 alt="Avatar"
                 className="avatar image"
-                style={{ height: size, width: size }}
+                // style={{ height: size, width: size }}
                 />
             ) : (
                 <div className="avatar no-image" style={{ height: size, width: size }} />
             )}
-        </ColorMain>
+        </>
     )
 }

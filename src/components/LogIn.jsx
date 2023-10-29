@@ -4,11 +4,35 @@ import styled from 'styled-components'
 
 const FlexForm = styled.form`
     display: flex;
+    flex-direction: column;
     gap: 5px;
 `
 
-const ColorMain = styled.div`
-    background-color: pink;
+const StyledInputDiv = styled.div`
+  display: flex;
+  gap: 5px;
+`
+
+const LoginDiv = styled.div`
+    // background-color: pink;
+`
+
+const StyledInput = styled.input`
+border: 2px solid var(--almost-black);
+padding: 2px;
+width: 120px;
+`
+
+const LoginButton = styled.button`
+border: none;
+background-color: transparent;
+color: var(--almost-white);
+font-size: 16px;
+font-weight: 500;
+&:hover{
+  cursor: pointer;
+  transform: scale(1.05);
+}
 `
 
 export default function LogIn({session}){
@@ -34,11 +58,11 @@ export default function LogIn({session}){
       }
 
       return (
-        <ColorMain>
-        <p>Login | </p>
+        <LoginDiv>
+        {/* <p>LOG IN</p> */}
         <FlexForm className="form-widget" onSubmit={handleLogin}>
-          <div>
-            <input
+          <StyledInputDiv>
+            <StyledInput
               className="inputField"
               type="email"
               placeholder="Your email"
@@ -46,7 +70,7 @@ export default function LogIn({session}){
               required={true}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <input
+            <StyledInput
               className="inputField"
               type="password"
               placeholder="*******"
@@ -54,13 +78,11 @@ export default function LogIn({session}){
               required={true}
               onChange={(e) => setPassword(e.target.value)}
             />
-          </div>
-          <div>
-            <button className={'button block'} disabled={loading}>
+          </StyledInputDiv>
+            <LoginButton className={'button block'} disabled={loading}>
               {loading ? <span>Loading</span> : <span>Login</span>}
-            </button>
-          </div>
+            </LoginButton>
         </FlexForm>
-        </ColorMain>
+        </LoginDiv>
       )
 }

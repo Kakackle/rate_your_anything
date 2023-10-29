@@ -4,6 +4,7 @@ import { supabase } from '../client'
 import Auth from '../components/Auth'
 import Account from '../components/Account'
 import LogOut from '../components/LogOut'
+import Grid from '../components/Grid'
 import { useOutletContext } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -20,33 +21,33 @@ export default function HomePage() {
   const dispatch = useDispatch()
 
   useEffect(()=>{
-    const fetchUsers = async () => {
-      const {data, error} = await supabase
-      .from('profiles')
-      .select()
+    // const fetchUsers = async () => {
+    //   const {data, error} = await supabase
+    //   .from('profiles')
+    //   .select()
   
-      if(error){ 
-      console.log(error)
-      setFetchError(error)
-      }
+    //   if(error){ 
+    //   console.log(error)
+    //   setFetchError(error)
+    //   }
   
-      if (data) {
-        setUsers(data);
-      }
-    }
+    //   if (data) {
+    //     setUsers(data);
+    //   }
+    // }
     // fetchUsers();
 
     const fetchPosts = async () => {
-      const {postsData, postsError} = await supabase
+      const {data: postsData, postsError} = await supabase
       .from('posts')
-      .select('*')
+      .select()
 
       if (postsError){
         console.log(postsError)
       }
 
       if(postsData){
-        console.log('posts', postsData)
+        console.log('posts', postsData);
         setPosts(postsData);
       }
     }
@@ -61,7 +62,7 @@ export default function HomePage() {
     // </div>
     <>
         <h1>Home page</h1>
-        {session? <LogOut></LogOut> : ""}
+        {session? <LogOut></LogOut> : <p>Not logged in</p>}
         { fetchError && (<p>{fetchError}</p>)}
         { users && (
           <ul>
@@ -103,6 +104,8 @@ export default function HomePage() {
             Decrement
           </button>
         </div>
+
+        {posts ? <Grid posts={posts}></Grid> : "No posts to display"}
     </>
   )
 }
