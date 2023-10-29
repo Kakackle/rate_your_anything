@@ -6,12 +6,18 @@ import Account from '../components/Account'
 import LogOut from '../components/LogOut'
 import { useOutletContext } from 'react-router-dom'
 
+import { useSelector, useDispatch } from 'react-redux'
+import { decrement, increment } from '../counter/counterSlice'
+
 export default function HomePage() {
   const session = useOutletContext();
   const [users, setUsers] = useState(null);
   const [fetchError, setFetchError] = useState(null);
 
   const [posts, setPosts] = useState(null);
+
+  const count = useSelector((state) => state.counter.value)
+  const dispatch = useDispatch()
 
   useEffect(()=>{
     const fetchUsers = async () => {
@@ -81,6 +87,22 @@ export default function HomePage() {
             </ul>
           )
         }
+        {/* counter */}
+        <div>
+          <button
+            aria-label="Increment value"
+            onClick={() => dispatch(increment())}
+          >
+            Increment
+          </button>
+          <span>{count}</span>
+          <button
+            aria-label="Decrement value"
+            onClick={() => dispatch(decrement())}
+          >
+            Decrement
+          </button>
+        </div>
     </>
   )
 }

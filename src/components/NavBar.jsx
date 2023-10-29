@@ -14,6 +14,7 @@ export default function NavBar({session}){
         <Nav>
             <Link to="/">Home</Link>
             <Link to="/authtest">Auth test</Link>
+            <Link to="/about">About</Link>
             {!session ? <><LogIn/> <Register/></> :
             <AccountNav key={session.user.id} session={session}/>}
         </Nav>
