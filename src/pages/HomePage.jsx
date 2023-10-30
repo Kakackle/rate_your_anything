@@ -1,46 +1,65 @@
 import '../App.css'
 import { useState, useEffect } from 'react'
-import { supabase } from '../client'
+import { supabase } from '../features/supabaseClient'
 import Auth from '../components/Auth'
 import Account from '../components/Account'
-import LogOut from '../components/LogOut'
-import Grid from '../components/Grid'
+import LogOut from '../components/Nav/LogOut'
+import Grid from '../components/Home/Grid'
 import { useOutletContext } from 'react-router-dom'
 
-import { useSelector, useDispatch } from 'react-redux'
-import { decrement, increment } from '../counter/counterSlice'
+import styled from 'styled-components'
+
+const Title = styled.h1`
+  font-size: 36px;
+  color: var(--color-2);
+  // background-color: var(--color-4);
+  display: block;
+  position: relative;
+  align-self: center;
+
+  &:after{
+    content:"";
+    background-color: var(--color-4);
+    height: 100%;
+    width: 250px;
+    // width: 100%;
+    // height: 100%;
+    position: absolute;
+    transform: translateX(-100%) rotate(-8deg);
+    z-index: -1;
+  }
+`
+
+const Main = styled.main`
+padding: 20px;
+display: flex;
+flex-direction: column;
+gap: 10px;
+`
+
 
 export default function HomePage() {
   const session = useOutletContext();
-  const [users, setUsers] = useState(null);
   const [fetchError, setFetchError] = useState(null);
 
   const [posts, setPosts] = useState(null);
 
-  const count = useSelector((state) => state.counter.value)
-  const dispatch = useDispatch()
-
   useEffect(()=>{
-    // const fetchUsers = async () => {
-    //   const {data, error} = await supabase
-    //   .from('profiles')
-    //   .select()
-  
-    //   if(error){ 
-    //   console.log(error)
-    //   setFetchError(error)
-    //   }
-  
-    //   if (data) {
-    //     setUsers(data);
-    //   }
-    // }
-    // fetchUsers();
-
     const fetchPosts = async () => {
       const {data: postsData, postsError} = await supabase
       .from('posts')
-      .select()
+      .select(
+        `created_at, avg_rating, description, author, photoUrl, name,
+        category (
+          id,
+          name
+        ),
+        author (
+          username,
+          full_name
+        )
+        `
+      )
 
       if (postsError){
         console.log(postsError)
@@ -60,52 +79,10 @@ export default function HomePage() {
     // <div className="container" style={{ padding: '50px 0 100px 0' }}>
     //   {!session ? <Auth /> : <Account key={session.user.id} session={session} />}
     // </div>
-    <>
-        <h1>Home page</h1>
-        {session? <LogOut></LogOut> : <p>Not logged in</p>}
-        { fetchError && (<p>{fetchError}</p>)}
-        { users && (
-          <ul>
-            {users.map(user => {
-              return(
-                <li key={user.id}>
-                  {user.username}
-                </li>
-              )
-            })}
-          </ul>
-        )}
-        {
-          posts && (
-            <ul>
-              {posts.map(post => {
-                return(
-                  <li key={post.id}>
-                    name: {post.name}, category: {post.category}
-                  </li>
-                )
-              })}
-            </ul>
-          )
-        }
-        {/* counter */}
-        <div>
-          <button
-            aria-label="Increment value"
-            onClick={() => dispatch(increment())}
-          >
-            Increment
-          </button>
-          <span>{count}</span>
-          <button
-            aria-label="Decrement value"
-            onClick={() => dispatch(decrement())}
-          >
-            Decrement
-          </button>
-        </div>
-
+    <Main>
+        <Title>Rate Your Stuff</Title>
+        {/* { fetchError && (<p>{fetchError}</p>)} */}
         {posts ? <Grid posts={posts}></Grid> : "No posts to display"}
-    </>
+    </Main>
   )
 }

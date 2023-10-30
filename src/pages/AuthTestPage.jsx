@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {supabase} from "../client";
+import {supabase} from "../features/supabaseClient";
 import styled from "styled-components";
 
 const Main = styled.main`

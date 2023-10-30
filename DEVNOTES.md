@@ -13,5 +13,13 @@ Np w ogolnych App.jsx, z klientem supabase pozyskujesz poprzez getSession() sesj
 i jesli jest tylko jeden glowny render, mozesz przekazac jako prop
 jesli jednak stosujesz react router, mozesz do wszystkich sciezek routera przekazac w <Outlet> poprzez context={session} 
 
-i nastepnie w sciezkach odbierac jako prop {session} by miec dostep do obiektu
-i poniewaz App.jsx nasluchuje zmian w sesji, metody supabase jak .signInWithPassword zmieniaja ten obiekt i aktualizuje sie w App, co jest przekazywane nizej
+~~i nastepnie w sciezkach odbierac jako prop {session} by miec dostep do obiektu
+i poniewaz App.jsx nasluchuje zmian w sesji, metody supabase jak .signInWithPassword zmieniaja ten obiekt i aktualizuje sie w App, co jest przekazywane nizej~~
+
+i nastepnie jesli cos jest globalnie, np navbar, mozesz przekazywac to poprzez prop, ale jesli nie jest, tylko idzie przez outlet, to w stronie ktora chce z korzystac z sesji, trzeba zawrzec
+
+`import { useOutletContext } from 'react-router-dom'`
+
+a potem 
+
+`const session = useOutletContext();`

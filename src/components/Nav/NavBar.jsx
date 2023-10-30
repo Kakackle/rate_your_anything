@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import LogIn from "./LogIn";
-import Register from "./Register";
+import Register from "../Register";
 import LogOut from "./LogOut";
 import AccountNav from "./AccountNav";
 
@@ -18,6 +18,7 @@ color: var(--almost-white);
 
 const Links = styled.div`
 display: flex;
+align-items: center;
 gap: 20px;
 `
 
@@ -44,13 +45,21 @@ gap: 10px;
 align-items: center;
 `
 
+const Logo = styled.p`
+font-size: 24px;
+font-weight: 700;
+color: var(--almost-white);
+`
+
 export default function NavBar({session}){
     return(
         <Nav>
             <Links>
+                <Logo>RYS</Logo>
                 <StyledLink to="/">Home</StyledLink>
                 <StyledLink to="/authtest">Auth test</StyledLink>
                 <StyledLink to="/about">About</StyledLink>
+                <StyledLink to="/create">Create</StyledLink>
             </Links>
             {!session ?
                 <NavMenu>

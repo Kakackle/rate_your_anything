@@ -1,4 +1,4 @@
-import { supabase } from "../client";
+import { supabase } from "../../features/supabaseClient";
 
 export default function LogOut(){
     const signOut = async () => {

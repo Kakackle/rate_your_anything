@@ -6,7 +6,8 @@ import HomePage from './pages/HomePage.jsx'
 import AuthTestPage from './pages/AuthTestPage.jsx'
 import AboutPage from './pages/AboutPage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
-import { store } from './store.js'
+import NewPostPage from './pages/NewPostPage.jsx'
+import { store } from './features/store.js'
 import { Provider } from 'react-redux'
 
 import {
@@ -24,6 +25,7 @@ const router = createBrowserRouter(
       <Route path="/about" element={<AboutPage></AboutPage>}></Route>
       <Route path="/authtest" element={<AuthTestPage></AuthTestPage>}></Route>
       <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
+      <Route path="/create" element={<NewPostPage></NewPostPage>}></Route>
     </Route>
   )  
 );
