@@ -11,7 +11,7 @@ export default function UploadImage({photoUrl, setPhotoUrl, photoLoading,
             const { data } = await supabase
             .storage
             .from('things')
-            .createSignedUrl(path, 60)
+            .createSignedUrl(path, 60*60*60*60)
             
             // const url = URL.createObjectURL(photo_url)
             setPhotoUrl(data.signedUrl);

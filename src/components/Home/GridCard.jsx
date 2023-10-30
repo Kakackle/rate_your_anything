@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { supabase } from "../../features/supabaseClient"
-
+import { useNavigate } from 'react-router-dom'
 import styled from "styled-components"
 
 const Card = styled.div`
@@ -30,6 +30,7 @@ font-size: 20px;
 
 export default function GridCard({post}){
     const [photoUrl, setPhotoUrl] = useState(null)
+    const navigate = useNavigate();
 
     useEffect(() => {
         let photo_url = post.photoUrl;
@@ -49,11 +50,16 @@ export default function GridCard({post}){
         }
     }
 
+    // const navigateTest = () => {
+    //     console.log(post);
+    // }
+
     return (
         <>
         {
             post ? 
-            <Card>
+            <Card onClick={()=>navigate(`/posts/${post.id}`)}>
+            {/* <Card onClick={navigateTest}> */}
                 { post.photoUrl ? (
                     <CardImg src={post.photoUrl} alt="thing image"></CardImg>
                 ):

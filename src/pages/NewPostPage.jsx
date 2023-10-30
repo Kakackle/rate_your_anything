@@ -12,8 +12,8 @@ export default function NewPostPage(){
     const session = useOutletContext();
 
     // form data
-    const [formName, setFormName] = useState(null);
-    const [formDesc, setFormDesc] = useState(null);
+    const [formName, setFormName] = useState('');
+    const [formDesc, setFormDesc] = useState('');
     const [formCat, setFormCat] = useState(1);
     const [newCat, setNewCat] = useState(null);
     const [newRating, setNewRating] = useState(5);
@@ -116,11 +116,13 @@ export default function NewPostPage(){
                 }
                 <label htmlFor="name">Name</label>
                 <input name="name" type="text" placeholder="Your favourite thing"
-                onChange={(e)=>setFormName(e.target.value)}>{formName}</input>
+                onChange={(e)=>setFormName(e.target.value)}
+                value={formName}></input>
 
                 <label htmlFor="description">Description</label>
                 <textarea name="description"
-                onChange={(e)=>setFormDesc(e.target.value)}>{formDesc}</textarea>
+                onChange={(e)=>setFormDesc(e.target.value)}
+                value={formDesc}></textarea>
 
                 <label htmlFor="category">Category</label>
                 {categories ? 

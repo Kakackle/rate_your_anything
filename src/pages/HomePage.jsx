@@ -7,6 +7,7 @@ import LogOut from '../components/Nav/LogOut'
 import Grid from '../components/Home/Grid'
 import { useOutletContext } from 'react-router-dom'
 
+
 import styled from 'styled-components'
 
 const Title = styled.h1`
@@ -40,7 +41,7 @@ gap: 10px;
 
 export default function HomePage() {
   const session = useOutletContext();
-  const [fetchError, setFetchError] = useState(null);
+  // const [fetchError, setFetchError] = useState(null); 
 
   const [posts, setPosts] = useState(null);
 
@@ -49,7 +50,7 @@ export default function HomePage() {
       const {data: postsData, postsError} = await supabase
       .from('posts')
       .select(
-        `created_at, avg_rating, description, author, photoUrl, name,
+        `id, created_at, avg_rating, description, author, photoUrl, name,
         category (
           id,
           name
