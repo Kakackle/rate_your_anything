@@ -5,7 +5,7 @@ import Avatar from './Avatar'
 export default function Account({ session }) {
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState(null)
-//   const [website, setWebsite] = useState(null)
+//const [website, setWebsite] = useState(null)
   const [avatar_url, setAvatarUrl] = useState(null)
 
   useEffect(() => {
