@@ -29,31 +29,7 @@ font-size: 20px;
 `
 
 export default function GridCard({post}){
-    const [photoUrl, setPhotoUrl] = useState(null)
     const navigate = useNavigate();
-
-    useEffect(() => {
-        let photo_url = post.photoUrl;
-        if (photo_url) downloadImage(photo_url)
-    }, [post.photoUrl])
-
-    async function downloadImage(path) {
-        try {
-            const {data, error} = await supabase.storage.from('things').download(path)
-            if (error){
-                throw error
-            }
-            const url = URL.createObjectURL(data)
-            setPhotoUrl(url)
-        } catch(error) {
-            console.log('Error downloading image: ', error.message)
-        }
-    }
-
-    // const navigateTest = () => {
-    //     console.log(post);
-    // }
-
     return (
         <>
         {
