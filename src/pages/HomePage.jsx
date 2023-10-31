@@ -51,6 +51,7 @@ export default function HomePage() {
   // const [fetchError, setFetchError] = useState(null); 
 
   const [posts, setPosts] = useState(null);
+  // const [modified, setModified] = useState(false);
 
   useEffect(()=>{
     const fetchPosts = async () => {
@@ -65,6 +66,10 @@ export default function HomePage() {
         author (
           username,
           full_name
+        ),
+        ratings(
+            value,
+            author
         )
         `
       )
@@ -91,7 +96,7 @@ export default function HomePage() {
         <Title>Rate Your Stuff</Title>
         <Note>Please not the visuals are a work in progress, otherwise enjoy the retro feel</Note>
         {/* { fetchError && (<p>{fetchError}</p>)} */}
-        {posts ? <Grid posts={posts}></Grid> : "No posts to display"}
+        {posts ? <Grid posts={posts} setPosts={setPosts}></Grid> : "No posts to display"}
     </Main>
   )
 }

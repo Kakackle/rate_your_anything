@@ -33,7 +33,7 @@ gap: 5px;
 width: 100%;
 `
 
-export default function Grid({posts}) {
+export default function Grid({posts, setPosts}) {
     const cards = posts.map(post=>{
         return (
             <GridCard post={post} key={post.id}></GridCard>
@@ -43,7 +43,7 @@ export default function Grid({posts}) {
         <Main>
         <MainSplit>
             <GridSortPagin>
-                <TopSorting></TopSorting>
+                <TopSorting setPosts={setPosts}></TopSorting>
                 {
                 posts ?
                 <CardGrid>
@@ -53,7 +53,7 @@ export default function Grid({posts}) {
                 <Pagination></Pagination>           
             </GridSortPagin>
 
-            <SideFilters></SideFilters>
+            <SideFilters setPosts={setPosts}></SideFilters>
         </MainSplit>
         
         </Main>

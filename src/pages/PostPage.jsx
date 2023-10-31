@@ -10,7 +10,7 @@ const calc_avg = function (post, ratings){
     ratings.forEach((rat)=>{
         val += parseInt(rat.value);
     })
-    console.log('val: ', val);
+    // console.log('val: ', val);
     console.log('calc_avg: ', val/(ratings.length + 1));
     return val/(ratings.length + 1);
 }
@@ -49,7 +49,7 @@ export default function PostPage(){
 
             if(postData){
                 // console.log(postData)
-                console.log(postData.ratings);
+                // console.log(postData.ratings);
                 setPost(postData);
                 setAvgRating(calc_avg(postData, postData.ratings));
             }
