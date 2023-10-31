@@ -1,5 +1,15 @@
 import { useEffect, useState } from 'react'
-import { supabase } from '../features/supabaseClient'
+import { supabase } from '../../features/supabaseClient'
+import styled from 'styled-components'
+
+const ImageLabel = styled.label`
+border: 2px solid var(--almost-black);
+padding: 2px;
+&:hover{
+  cursor: pointer;
+  filter: brightness(0.75);
+}
+`
 
 export default function Avatar({ url, size, onUpload }) {
   const [avatarUrl, setAvatarUrl] = useState(null)
@@ -62,9 +72,9 @@ export default function Avatar({ url, size, onUpload }) {
         <div className="avatar no-image" style={{ height: size, width: size }} />
       )}
       <div style={{ width: size }}>
-        <label className="button primary block" htmlFor="single">
-          {uploading ? 'Uploading ...' : 'Upload'}
-        </label>
+        <ImageLabel className="button primary block" htmlFor="single">
+          {uploading ? 'Uploading ...' : 'Choose image'}
+        </ImageLabel>
         <input
           style={{
             visibility: 'hidden',

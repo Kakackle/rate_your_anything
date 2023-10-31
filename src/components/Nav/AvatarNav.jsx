@@ -10,6 +10,7 @@ const AvImg = styled.img`
 width: 50px;
 height: 50px;
 border-radius: 50%;
+background-color: var(--gray-light);
 `
 
 export default function Avatar({ url, size}) {

@@ -1,16 +1,40 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../features/supabaseClient'
-import Avatar from './Avatar'
+import Avatar from '../components/AccountPage/Avatar'
+import { useOutletContext } from 'react-router-dom'
+import styled from 'styled-components'
 
-export default function Account({ session }) {
+const Main = styled.main`
+display: flex;
+flex-direction: column;
+width: 100%;
+align-items: center;
+gap: 10px;
+width: 100%;
+`
+
+const Form = styled.form`
+display: flex;
+flex-direction: column;
+width: 100%;
+align-items: center;
+gap: 10px;
+width: 100%;
+`
+
+export default function Account() {
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState(null)
 //const [website, setWebsite] = useState(null)
   const [avatar_url, setAvatarUrl] = useState(null)
+  const session = useOutletContext();
 
   useEffect(() => {
     async function getProfile() {
       setLoading(true)
+      if (!session){
+        return
+      }
       const { user } = session
 
       const { data, error } = await supabase
@@ -57,8 +81,9 @@ export default function Account({ session }) {
   }
 
   return (
-    <>
-    <form onSubmit={updateProfile} className="form-widget">
+    <Main>
+    { session ? 
+    <Form onSubmit={updateProfile} className="form-widget">
       <div>
         <label htmlFor="email">Email</label>
         <input id="email" type="text" value={session.user.email} disabled />
@@ -72,6 +97,7 @@ export default function Account({ session }) {
           value={username || ''}
           onChange={(e) => setUsername(e.target.value)}
         />
+        <p>Upload a new avatar:</p>
         <Avatar
         url={avatar_url}
         size={150}
@@ -92,8 +118,11 @@ export default function Account({ session }) {
           Sign Out
         </button>
       </div>
-    </form>
-    </>
+    </Form>
+    :
+    <p>Log in first!</p>
+    }
+    </Main>
   
   )
     }

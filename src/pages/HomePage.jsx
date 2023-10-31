@@ -2,7 +2,7 @@ import '../App.css'
 import { useState, useEffect } from 'react'
 import { supabase } from '../features/supabaseClient'
 import Auth from '../components/Auth'
-import Account from '../components/Account'
+import Account from './AccountPage'
 import LogOut from '../components/Nav/LogOut'
 import Grid from '../components/Home/Grid'
 import { useOutletContext } from 'react-router-dom'
@@ -29,6 +29,13 @@ const Title = styled.h1`
     transform: translateX(-100%) rotate(-8deg);
     z-index: -1;
   }
+`
+
+const Note = styled.h2`
+  font-size: 20px;
+  color: var(--gray-mid);
+  align-self: center;
+  font-weight: 300;
 `
 
 const Main = styled.main`
@@ -82,6 +89,7 @@ export default function HomePage() {
     // </div>
     <Main>
         <Title>Rate Your Stuff</Title>
+        <Note>Please not the visuals are a work in progress, otherwise enjoy the retro feel</Note>
         {/* { fetchError && (<p>{fetchError}</p>)} */}
         {posts ? <Grid posts={posts}></Grid> : "No posts to display"}
     </Main>

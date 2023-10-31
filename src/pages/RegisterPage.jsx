@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { supabase } from '../features/supabaseClient'
 import styled from 'styled-components'
+// import { useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const PageMain = styled.main`
 display: flex;
@@ -29,6 +31,8 @@ export default function RegisterPage({session}){
         username: ''
     });
 
+    const [registerMsg, setRegisterMsg] = useState(null);
+
     const changeForm = (e) => {
         setFormData((prevFormData)=>{
             return{
@@ -52,6 +56,8 @@ export default function RegisterPage({session}){
                   }
                 }
               )
+              setRegisterMsg("Check your email to complete the registration process!")
+
               console.log(data);
         } catch (error) {
             console.log(error);
@@ -79,6 +85,14 @@ export default function RegisterPage({session}){
                 </LabelDiv>
                 <button type="submit">Register</button>
             </Form>
+            {
+                registerMsg ? 
+                <>
+                <p>{registerMsg}</p>
+                <NavLink to="/home">Go back home</NavLink>
+                </>
+                : ""
+            }
         </PageMain>
 
     )
