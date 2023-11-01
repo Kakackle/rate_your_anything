@@ -1,6 +1,4 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
   /* padding: 2rem; */
   /* text-align: center; */
   --color-1: #7149C6;
@@ -12,4 +10,11 @@
   --gray-mid: #56585c;
   --gray-light: #b7b8b9;
 
+}
+
+.main{
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  /* background-color: var(--color-4); */
 }

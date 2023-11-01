@@ -24,7 +24,9 @@ function App() {
       <NavBar session={session}></NavBar>
       {/* <h1>Rate your stuff</h1> */}
       {/* <Outlet session={session}></Outlet> */}
+      <main className="main">
       <Outlet context={session}></Outlet>
+      </main>
     </>
   )
 }

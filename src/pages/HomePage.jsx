@@ -51,11 +51,16 @@ export default function HomePage() {
   // const [fetchError, setFetchError] = useState(null); 
 
   const [posts, setPosts] = useState(null);
-  // const [modified, setModified] = useState(false);
+
+  const [orderBy, setOrderBy] = useState('created_at');
+  const [searchBy, setSearchBy] = useState(null);
+  const [checkedCats, setCheckedCats] = useState([]);
+  const [filtering, setFiltering] = useState(false);
 
   useEffect(()=>{
     const fetchPosts = async () => {
-      const {data: postsData, postsError} = await supabase
+
+      let query = supabase
       .from('posts')
       .select(
         `id, created_at, avg_rating, description, author, photoUrl, name,
@@ -73,6 +78,22 @@ export default function HomePage() {
         )
         `
       )
+      
+      // FILTERING
+
+      let search_query = searchBy;
+        if (!search_query) search_query='*'
+        // console.log('search_query', search_query)
+        query = query.ilike('name', `%${search_query}%`)
+
+        if (checkedCats.length) {query = query.in('category.name', checkedCats)}
+
+      // ORDERING
+
+      if (orderBy.length) { query = query.order(orderBy)}
+
+      // FINAL QUERY
+      const {data: postsData, postsError} = await query
 
       if (postsError){
         console.log(postsError)
@@ -85,7 +106,7 @@ export default function HomePage() {
     }
 
     fetchPosts();
-  }, [])
+  }, [orderBy, filtering])
   
 
   return (
@@ -96,7 +117,12 @@ export default function HomePage() {
         <Title>Rate Your Stuff</Title>
         <Note>Please not the visuals are a work in progress, otherwise enjoy the retro feel</Note>
         {/* { fetchError && (<p>{fetchError}</p>)} */}
-        {posts ? <Grid posts={posts} setPosts={setPosts}></Grid> : "No posts to display"}
+        {posts ? <Grid posts={posts}
+        order={{orderBy: orderBy, setOrderBy: setOrderBy}}
+        search={{searchBy, setSearchBy: setSearchBy}}
+        check={{checkedCats: checkedCats, setCheckedCats: setCheckedCats}}
+        setFiltering={setFiltering}
+        ></Grid> : "No posts to display"}
     </Main>
   )
 }

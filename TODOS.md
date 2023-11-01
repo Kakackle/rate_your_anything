@@ -20,17 +20,17 @@ DONE: 10. Search po nazwach i kategoriach w CardGrid
 
 DONE: 11. Generalnie wykorzystanie faktu ze mamy sesje ktory uzytkownik jest zalogowany wiec posty dodawane beda przez niego itd
 
-TODO: 12. Z jakiegos powodu jakies dziwne bledy, ze czasem mowi ze posty maja kategorie null, co nie ma sensu
+TODO:? 12. Z jakiegos powodu jakies dziwne bledy, ze czasem mowi ze posty maja kategorie null, co nie ma sensu
 
-TODO: 13. Napraw by nav mogl wychodzic na 100% szerokosci
+DONE: 13. Napraw by nav mogl wychodzic na 100% szerokosci
 
 TODO: 14. Inne wizualia
 
-TODO: 15. Pozbadz sie auth test
+DONE 15. Pozbadz sie auth test
 
-TODO: 16. Auth page?
+TODO: 16. Auth page? huh?
 
-TODO: 17. Zwijanie jakies nava z media queries?
+DONE: 17. Zwijanie jakies nava z media queries?
 
 TODO: 18. Paginacja
 

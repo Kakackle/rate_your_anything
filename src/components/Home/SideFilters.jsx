@@ -36,11 +36,11 @@ const CheckboxFlex = styled.div`
 display: flex;
 gap: 5px;`
 
-export default function SideFilters({setPosts}){
-    const [searchBy, setSearchBy] = useState(null);
+export default function SideFilters({search, check, setFiltering}){
+    // const [searchBy, setSearchBy] = useState(null);
     const [filterBy, setFilterBy] = useState(null);
     const [categories, setCategories] = useState(null);
-    const [checkedCats, setCheckedCats] = useState([]);
+    // const [checkedCats, setCheckedCats] = useState([]);
 
     useEffect(()=>{
         async function fetchCategories(){
@@ -54,55 +54,55 @@ export default function SideFilters({setPosts}){
         fetchCategories();
     },[])
 
-    async function filterPosts(){
-        // let filter_query = filterBy;
-        // if (!filter_query) filter_query='*'
-        // console.log('filter_query', filter_query)
+    // async function filterPosts(){
+    //     // let filter_query = filterBy;
+    //     // if (!filter_query) filter_query='*'
+    //     // console.log('filter_query', filter_query)
 
-        let query = supabase
-        .from('posts')
-        .select(
-            `id, created_at, avg_rating, description, author, photoUrl, name,
-            category (
-              id,
-              name
-            ),
-            author (
-              username,
-              full_name
-            ),
-            ratings(
-                value,
-                author
-            )
-            `
-          )
+    //     let query = supabase
+    //     .from('posts')
+    //     .select(
+    //         `id, created_at, avg_rating, description, author, photoUrl, name,
+    //         category (
+    //           id,
+    //           name
+    //         ),
+    //         author (
+    //           username,
+    //           full_name
+    //         ),
+    //         ratings(
+    //             value,
+    //             author
+    //         )
+    //         `
+    //       )
         
-        let search_query = searchBy;
-        if (!search_query) search_query='*'
-        // console.log('search_query', search_query)
-        query = query.ilike('name', `%${search_query}%`)
+    //     let search_query = searchBy;
+    //     if (!search_query) search_query='*'
+    //     // console.log('search_query', search_query)
+    //     query = query.ilike('name', `%${search_query}%`)
 
-        if (checkedCats.length) {query = query.in('category.name', checkedCats)}
+    //     if (checkedCats.length) {query = query.in('category.name', checkedCats)}
 
-        const {data, error} = await query
-        // .ilike('name', `%${search_query}%`)
-        // .ilike('category.name', `%${filter_query}%`)
-        // .or(`name.ilike.%`)
+    //     const {data, error} = await query
+    //     // .ilike('name', `%${search_query}%`)
+    //     // .ilike('category.name', `%${filter_query}%`)
+    //     // .or(`name.ilike.%`)
 
-        if(error) { console.log(error); }
-        if(data) {
-            console.log(data);
-            setPosts(data);
-        }
-    }
+    //     if(error) { console.log(error); }
+    //     if(data) {
+    //         console.log(data);
+    //         setPosts(data);
+    //     }
+    // }
 
     // useEffect(()=>{
     //     filterPosts();
     // }, [searchBy])
 
     const changeCats = (event)=>{
-        let new_cats = checkedCats.slice()
+        let new_cats = check.checkedCats.slice()
         if (event.target.checked) {
             new_cats.push(event.target.value)
         }
@@ -112,7 +112,7 @@ export default function SideFilters({setPosts}){
             })
         }
         console.log(`new cats: ${new_cats}`);
-        setCheckedCats(new_cats);
+        check.setCheckedCats(new_cats);
     }
 
     return (
@@ -120,7 +120,7 @@ export default function SideFilters({setPosts}){
             <InputLabel>
                 <label htmlFor="search">Filter posts</label>
                 <Search type="search" name="search"
-                onChange={(e)=>{setSearchBy(e.target.value)}}></Search>
+                onChange={(e)=>{search.setSearchBy(e.target.value)}}></Search>
             </InputLabel>
             <InputLabel>
                 <label>Filter by categories</label>
@@ -142,7 +142,7 @@ export default function SideFilters({setPosts}){
                     
                 </Checkboxes>   
             </InputLabel>
-            <button onClick={filterPosts}>Filter</button>
+            <button onClick={() => setFiltering(prev => !prev)}>Filter</button>
         </Side>
     )
 }

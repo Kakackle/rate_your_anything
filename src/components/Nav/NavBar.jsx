@@ -6,8 +6,17 @@ import LogOut from "./LogOut";
 import AccountNav from "./AccountNav";
 
 const Nav = styled.nav`
+background-color: var(--color-1);
+height: 60px;
+width: 100%;
+`
+
+const NavCentered = styled.nav`
+max-width: 1280px;
+width: 100%;
+margin: 0 auto;
+
 display: flex;
-// gap: 10px;
 justify-content: space-between;
 background-color: var(--color-1);
 height: 60px;
@@ -37,6 +46,10 @@ text-transform: uppercase;
 &.active{
     color: var(--color-4);
 }
+
+@media (max-width: 600px){
+    font-size: 16px;
+}
 `
 
 const NavMenu = styled.div`
@@ -54,11 +67,12 @@ color: var(--almost-white);
 export default function NavBar({session}){
     return(
         <Nav>
+            <NavCentered>
             <Links>
                 <Logo>RYS</Logo>
                 <StyledLink to="/">Home</StyledLink>
-                <StyledLink to="/authtest">Auth test</StyledLink>
-                <StyledLink to="/about">About</StyledLink>
+                {/* <StyledLink to="/authtest">Auth test</StyledLink> */}
+                {/* <StyledLink to="/about">About</StyledLink> */}
                 <StyledLink to="/create">Create</StyledLink>
             </Links>
             {!session ?
@@ -72,6 +86,7 @@ export default function NavBar({session}){
                 <LogOut></LogOut>  
             </NavMenu>
             }
+            </NavCentered>
         </Nav>
     )
 }
