@@ -156,7 +156,7 @@ export default function GridCard({post}){
                 <CardBottom>
                     <CardTitle onClick={()=>navigate(`/posts/${post.id}`)}
                     >{post.name}</CardTitle>
-                    <p>category: {post.category.name}</p>
+                    {post.category && <p>category: {post.category.name}</p>}
                     <p>Avg.: {calc_avg(post, post.ratings)}</p>
                     <p>{new Date(post.created_at).toDateString()}</p>
                     <p>{post.author.username}</p>

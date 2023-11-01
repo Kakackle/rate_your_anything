@@ -57,6 +57,8 @@ export default function HomePage() {
   const [checkedCats, setCheckedCats] = useState([]);
   const [filtering, setFiltering] = useState(false);
 
+  const [pageRange, setPageRange] = useState({from: 0, to:2});
+
   useEffect(()=>{
     const fetchPosts = async () => {
 
@@ -64,11 +66,11 @@ export default function HomePage() {
       .from('posts')
       .select(
         `id, created_at, avg_rating, description, author, photoUrl, name,
-        category (
+        category!inner(
           id,
           name
         ),
-        author (
+        author(
           username,
           full_name
         ),
@@ -82,15 +84,21 @@ export default function HomePage() {
       // FILTERING
 
       let search_query = searchBy;
-        if (!search_query) search_query='*'
-        // console.log('search_query', search_query)
-        query = query.ilike('name', `%${search_query}%`)
+      if (!search_query) search_query='*'
+      query = query.ilike('name', `%${search_query}%`)
 
-        if (checkedCats.length) {query = query.in('category.name', checkedCats)}
+      if (checkedCats.length) {
+        console.log(`filtering by cats: ${checkedCats}`)
+        query = query.in('category.name', checkedCats)
+      }
 
       // ORDERING
 
       if (orderBy.length) { query = query.order(orderBy)}
+
+      // PAGINATION
+      console.log(`pageRange from: ${pageRange.from}, to: ${pageRange.to}`);
+      query = query.range(pageRange.from, pageRange.to);
 
       // FINAL QUERY
       const {data: postsData, postsError} = await query
@@ -106,7 +114,7 @@ export default function HomePage() {
     }
 
     fetchPosts();
-  }, [orderBy, filtering])
+  }, [orderBy, filtering, pageRange])
   
 
   return (
@@ -122,6 +130,7 @@ export default function HomePage() {
         search={{searchBy, setSearchBy: setSearchBy}}
         check={{checkedCats: checkedCats, setCheckedCats: setCheckedCats}}
         setFiltering={setFiltering}
+        setPageRange={setPageRange}
         ></Grid> : "No posts to display"}
     </Main>
   )

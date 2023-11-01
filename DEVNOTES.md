@@ -23,3 +23,22 @@ i nastepnie jesli cos jest globalnie, np navbar, mozesz przekazywac to poprzez p
 a potem 
 
 `const session = useOutletContext();`
+
+# Filtracja i sortowanie supabase notki
+
+- Najpierw filtracja potem sortowanie - standard
+
+- Jesli chcesz filtrowac po foreign table, normalnie selectujac robisz
+```
+.select(`something,
+        table(
+            something2
+        )`)
+```
+a filtrujac msuisz zrobic
+```
+.select(`something,
+        table!inner(
+        )
+)
+```
