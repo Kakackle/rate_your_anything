@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { supabase } from "../features/supabaseClient";
 import { useEffect, useState } from "react";
 import { useOutletContext } from 'react-router-dom'
+import { useParams } from "react-router-dom";
 
 import UploadImage from "../components/NewPost/UploadImage";
 
@@ -10,6 +11,8 @@ export default function NewPostPage(){
     const [author, setAuthor] = useState(null);
     const rating_options = [1,2,3,4,5];
     const session = useOutletContext();
+    const {post_id} = useParams();
+    console.log(`post_id: ${post_id}`);
 
     // form data
     const [formName, setFormName] = useState('');
@@ -21,6 +24,9 @@ export default function NewPostPage(){
     const [newPhoto, setNewPhoto] = useState(null);
     const [photoUrl, setPhotoUrl] = useState(null);
     const [photoLoading, setPhotoLoading] = useState(true);
+
+    const [post, setPost] = useState(null);
+    const [postLoading, setPostLoading] = useState(false);
 
 
     useEffect(()=>{
@@ -40,7 +46,7 @@ export default function NewPostPage(){
         }
 
         fetchCategories();
-    }, [categories, newCatAdded])
+    }, [newCatAdded])
     
     useEffect(()=>{
         if (session) {
@@ -48,6 +54,50 @@ export default function NewPostPage(){
             setAuthor(user.id);
         }
     }, [session])
+
+    async function fetchPost() {
+        setPostLoading(true)
+        const {data, error} = await supabase
+        .from('posts')
+        .select(`id, created_at, avg_rating, description, author, photoUrl, name,
+            category(
+                id, name
+            ),
+            author(
+                id, username
+            )
+            `)
+        .eq('id', post_id)
+        .maybeSingle()
+
+        if(error){
+            console.log(error);
+            setPostLoading(false);
+        }
+
+        if(data){
+            console.log('post fetched')
+            console.log(`data: ${JSON.stringify(data)}`);
+            setFormName(data.name);
+            setFormDesc(data.description);
+            setFormCat(data.category.id);
+            setPhotoUrl(data.photoUrl);
+            setNewRating(data.avg_rating);
+
+
+            setPost(data);
+            setPhotoLoading(false);
+            setPostLoading(false);
+        }
+        // console.log("No ty zmijo")
+    }
+
+    useEffect(()=>{
+        if (post_id){
+            // console.log('try to fetch');
+            fetchPost();
+        }
+    }, [post_id])
 
     async function createPost(event) {
         event.preventDefault();
@@ -79,7 +129,37 @@ export default function NewPostPage(){
             setPhotoUrl('');
             setNewPhoto(null);
         }
-    } 
+    }
+
+    async function updatePost(event){
+        event.preventDefault();
+        let new_object = {
+            name: formName,
+            description: formDesc,
+            // author: session.user.id,
+            photoUrl: photoUrl,
+            category: formCat,
+            avg_rating: newRating
+        }
+        const {data, error} = await supabase
+        .from('posts')
+        .update(new_object)
+        .eq('id', post_id)
+        .select()
+
+        if(error){
+            console.log(error);
+        }
+
+        if(data){
+            console.log(data);
+            fetchPost();
+            // setFormName('');
+            // setFormDesc('');
+            // setPhotoUrl('');
+            // setNewPhoto(null);
+        }
+    }
 
     async function createCat(event) {
         event.preventDefault()
@@ -106,7 +186,8 @@ export default function NewPostPage(){
     }
 
     return (
-        <Main>
+            !postLoading ?
+            <Main>
             <Title>Add a new post</Title>
             <Form>
                 {
@@ -163,10 +244,22 @@ export default function NewPostPage(){
                 newPhoto={newPhoto} setNewPhoto={setNewPhoto}></UploadImage>
                 {
                     photoLoading ? <p>Please upload an image before submitting the form</p>
-                    : <button type="submit" onClick={createPost}>CREATE</button>
+                    :
+                    <>
+                    {
+                        ( post && session.user.id === post.author.id) ?
+                        <button type="submit" onClick={updatePost}>UPDATE</button>
+                        :
+                        <button type="submit" onClick={createPost}>CREATE</button>
+                    }
+                    </>
+
+                    // <button type="submit" onClick={createPost}>CREATE</button>
                 }
             </Form>
         </Main>
+        : <p>Post loading</p>
+        
     )
 }
 

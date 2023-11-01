@@ -27,7 +27,7 @@ const router = createBrowserRouter(
       <Route path="/about" element={<AboutPage></AboutPage>}></Route>
       <Route path="/authtest" element={<AuthTestPage></AuthTestPage>}></Route>
       <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
-      <Route path="/create" element={<NewPostPage></NewPostPage>}></Route>
+      <Route path="/create/:post_id?" element={<NewPostPage></NewPostPage>}></Route>
       <Route path="/posts/:post_id" element={<PostPage></PostPage>}></Route>
       <Route path="/account" element={<Account></Account>}></Route>
     </Route>

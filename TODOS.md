@@ -34,6 +34,6 @@ DONE: 17. Zwijanie jakies nava z media queries?
 
 DONE: 18. Paginacja
 
-TODO: 19. Operacje CRUDowe delete, update itd na postach i ratingach chociazby
+DONE: 19. Operacje CRUDowe delete, update itd na postach i ratingach chociazby
 
-TODO: 20. Wyglada ze wszystkie post page maja te same user ratings
+DONE: 20. Wyglada ze wszystkie post page maja te same user ratings
