@@ -15,7 +15,7 @@ export default function Ratings({post_id}){
             const {data: ratingsData, error} = await supabase
             .from('ratings')
             // .select()
-            .select(`id, created_at, value, author(*), message, post(id)`)
+            .select(`id, created_at, value, author(*), message, post!inner(id)`)
             .eq('post.id', post_id)
 
             if (error){
@@ -29,14 +29,13 @@ export default function Ratings({post_id}){
                     if (session.user.id === rating.author.id){
                         setUserInRatings(true)
                     }
+                    else { setUserInRatings(false)}
                 })
                 }
-                // setUserInRatings(session.user)
-                // console.log(ratingsData);
             }
         }
         fetchRatings();
-    }, [post_id, newRatingAdded])
+    }, [post_id, newRatingAdded, session])
 
     return (
         <RatingsDiv>
@@ -50,10 +49,10 @@ export default function Ratings({post_id}){
                     })
                 }
                 </RatingsList>
-                : ""
+                : <p>No one has rated this thing yet! Be the first one</p>
             }
             {
-                userInRatings ?
+                userInRatings === false ?
                 <RatingForm post_id={post_id} setNewRatingAdded={setNewRatingAdded}></RatingForm>
                 : <p>You have already rated this thing</p>
             }

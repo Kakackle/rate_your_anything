@@ -50,7 +50,7 @@ export default function Grid({posts, order, search, check, setFiltering, setPage
                     {cards}
                 </CardGrid> : ""
                 }
-                <Pagination page_size={3} setPageRange={setPageRange}
+                <Pagination page_size={9} setPageRange={setPageRange}
                 ></Pagination>           
             </GridSortPagin>
 

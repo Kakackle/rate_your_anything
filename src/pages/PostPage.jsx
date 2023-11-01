@@ -2,16 +2,17 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { supabase } from "../features/supabaseClient";
 import styled from "styled-components";
+import { useOutletContext } from "react-router-dom";
 
 import Ratings from "../components/PostPage/Ratings";
+import DeletePost from "../components/PostPage/DeletePost";
 
 const calc_avg = function (post, ratings){
     let val = parseInt(post.avg_rating);
     ratings.forEach((rat)=>{
         val += parseInt(rat.value);
     })
-    // console.log('val: ', val);
-    console.log('calc_avg: ', val/(ratings.length + 1));
+    // console.log('calc_avg: ', val/(ratings.length + 1));
     return val/(ratings.length + 1);
 }
 
@@ -19,18 +20,21 @@ export default function PostPage(){
     const {post_id} = useParams();
     const [post, setPost] = useState(null);
     const [avgRating, setAvgRating] = useState(0);
+    const session = useOutletContext();
+
     useEffect(()=>{
         // console.log(post_id);
         const fetchPost = async () => {
             const {data: postData, postError} = await supabase
             .from('posts')
             .select(
-                `created_at, avg_rating, description, author, photoUrl, name,
+                `id, created_at, avg_rating, description, author, photoUrl, name,
                 category (
                   id,
                   name
                 ),
                 author (
+                  id,
                   username,
                   full_name
                 ),
@@ -48,8 +52,7 @@ export default function PostPage(){
             }
 
             if(postData){
-                // console.log(postData)
-                // console.log(postData.ratings);
+                console.log(`ratings: ${JSON.stringify(postData.ratings)}`);
                 setPost(postData);
                 setAvgRating(calc_avg(postData, postData.ratings));
             }
@@ -71,15 +74,25 @@ export default function PostPage(){
                             <p>by: {post.author.username}</p>
                             <p>| {post.created_at}</p>
                         </BottomTopLeft>
-                        <Score>Avg.: {avgRating}/5</Score>
+                        <BottomTopRight>
+                            <Score>Avg.: {avgRating}/5</Score>
+                            <p>Initial: {post.avg_rating}</p>
+                        </BottomTopRight>
+                        
                     </BottomTop>
                     {post.description}
+                    {
+                        session.user.id == post.author.id ?
+                        <DeletePost post_id={post.id}></DeletePost>
+                        : <p></p>
+                    }
+                    
                 </PostBottom>
             </Post>
             : <p>No post to display</p> 
         }
         </Post>
-        <Ratings post_id={post_id}>
+        <Ratings post_id={parseInt(post_id)}>
         </Ratings>
         </Main>
     )
@@ -124,6 +137,12 @@ const BottomTop = styled.div`
 const BottomTopLeft = styled.div`
     display: flex;
     gap: 10px;
+`
+
+const BottomTopRight = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 `
 
 const Score = styled.p`

@@ -123,7 +123,7 @@ export default function HomePage() {
     // </div>
     <Main>
         <Title>Rate Your Stuff</Title>
-        <Note>Please not the visuals are a work in progress, otherwise enjoy the retro feel</Note>
+        <Note>Please note the visuals are a work in progress, otherwise enjoy the retro feel</Note>
         {/* { fetchError && (<p>{fetchError}</p>)} */}
         {posts ? <Grid posts={posts}
         order={{orderBy: orderBy, setOrderBy: setOrderBy}}

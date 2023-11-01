@@ -20,7 +20,7 @@ const active = {
 }
 
 const getPagination = (page, size) => {
-    const limit = size ? +size : 3;
+    const limit = size ? +size : 9;
     const from = page ? page * limit : 0;
     const to = page ? from + size-1 : size-1;
     
